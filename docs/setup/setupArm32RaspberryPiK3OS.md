@@ -14,13 +14,13 @@
    cat <<EOF | tee config.yaml
    ssh_authorized_keys:
    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQ...
-   hostname: bi-rpi4-1
+   hostname: bi-k3os-rpi1
    k3os:
      data_sources:
      - cdrom
      dns_nameservers:
+     - 192.168.201.1
      - 192.168.0.4
-     - 192.168.0.3
      ntp_servers:
      - 0.uk.pool.ntp.org
      - 1.europe.pool.ntp.org
@@ -53,7 +53,7 @@ To make the changes described above enter the following commands:
    ```bash
    sudo cp /var/lib/rancher/k3s/server/manifests/traefik.yaml /var/lib/rancher/k3s/server/manifests/traefik-mod.yaml
    cat <<EOF | sudo tee /var/lib/rancher/k3os/config.yaml
-   hostname: k3os-mac
+   hostname: bi-k3os-rpi1
    k3os:
      k3s_args:
      - server
@@ -76,13 +76,13 @@ You may want to add additional raspberry pis as cluster nodes.  To do this follo
 ```yaml
 ssh_authorized_keys:
 - <WORKSTATION_SSH_PUBLIC_KEY>
-hostname: bi-k3os-mac
+hostname: bi-k3os-rpi2
 k3os:
 data_sources:
 - cdrom
 dns_nameservers:
+- 192.168.201.1
 - 192.168.0.4
-- 192.168.0.3
 ntp_servers:
 - 0.uk.pool.ntp.org
 - 1.europe.pool.ntp.org

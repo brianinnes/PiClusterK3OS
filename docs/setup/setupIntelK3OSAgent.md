@@ -2,7 +2,7 @@
 
 As part of the cluster I need at least 1 amd64 node, this will be a multi-arch build node when the cluster is fully operational, but as part of the initial setup it is needed to run images not available for arm architectures.  
 
-Kubernetes automatically adds the label **kubernetes.io/arch: arm** to each node, which can be used as a selector to ensure pods can be limited to a specific architecture when required.  The value of the label is the **runtime.GOARCH** as defined by the go language for the node architecture.
+Kubernetes automatically adds the label **kubernetes.io/arch: amd64** to each node, which can be used as a selector to ensure pods can be limited to a specific architecture when required.  The value of the label is the **runtime.GOARCH** as defined by the go language for the node architecture.
 
 I plan to create multi-architecture builds of all containers that form part of the core infrastructure, but this is a secondary goal after the core setup.
 
@@ -17,18 +17,18 @@ When the system is initially setup it needs a configuration file.  The easiest w
     ```yaml
     ssh_authorized_keys:
     - <WORKSTATION_SSH_PUBLIC_KEY>
-    hostname: bi-k3os-mac
+    hostname: bi-k3os-mac1
     k3os:
       data_sources:
       - cdrom
       dns_nameservers:
+      - 192.168.201.1
       - 192.168.0.4
-      - 192.168.0.3
       ntp_servers:
       - 0.uk.pool.ntp.org
       - 1.europe.pool.ntp.org
       password: PASSWORD
-      server_url: http://SERVER:6443
+      server_url: https://SERVER:6443
       token: TOKEN_VALUE
       labels:
         upgrade.cattle.io/k3os-latest: enabled
@@ -46,7 +46,10 @@ When the system is initially setup it needs a configuration file.  The easiest w
 
 1. Download K3OS iso file from the [rancher k3os git repo](https://github.com/rancher/k3os/releases)
 2. burn the iso to a USB key, insert the key in the target machine then reboot it into k3OS
-3. on the k3OS command line enter ```sudo k3os install --config http://WORKSTATION_IP/config_amd64.yaml``` and follow the prompts to install to the laptop hard drive .  THIS WILL ERASE THE MAC DISK.  You want to select to install a server, accept all the default promps.  Select Yes to format the disk.  When the install has completed let the machine reboot and remove the USB key.  The laptop should boot into K3OS
+3. on the k3OS command line enter ```sudo k3os install```
+   - Select 1 to install to disk and select your internal disk (usually option 1)
+   - select y to provide config file, then specify the address of the file : ```http://WORKSTATION_IP/config_amd64.yaml```
+   - select y to confirm disk will be formatted.  NOTE: **THIS WILL ERASE THE MAC DISK***
 
 After the system boots it should automatically register with the master node and become part of the cluster.  User ```kubectl get nodes``` to show the nodes available in your cluster
 
