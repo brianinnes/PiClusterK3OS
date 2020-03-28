@@ -11,9 +11,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - k3s.bik3s.home
+    - k3s.bik8s.home
   rules:
-  - host: k3s.bik3s.home
+  - host: k3s.bik8s.home
     http:
       paths:
         - path: /

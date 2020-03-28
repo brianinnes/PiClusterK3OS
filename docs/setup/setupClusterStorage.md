@@ -1,6 +1,6 @@
 # Setup distributed block storage
 
-The NFS storage provider works on both Raspberry Pis running a base raspbian OS and also Intel/AMD workstations installed from the k3os ISO.
+The NFS storage provider works on both Raspberry Pis running a base Raspbian OS and also Intel/AMD workstations installed from the k3os ISO.
 
 Longhorn is a distributed file service, which replicates the storage over multiple nodes - need to investigate if Longhorn is useable with replicas stored on NFS mounted volumes on Raspberry Pis.
 

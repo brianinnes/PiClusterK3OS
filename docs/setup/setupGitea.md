@@ -35,8 +35,8 @@ SSL:            Disable
 Schema:         <leave blank>
 
 Site Title:     <Set to string of choice>
-SSH Server Domain: gitea.bik3s.home <this is what the ingress hostname is>
-Gitea Base URL: http://gitea.bik3s.home/
+SSH Server Domain: gitea.bik8s.home <this is what the ingress hostname is>
+Gitea Base URL: http://gitea.bik8s.home/
 
 
 Note user passwords need:

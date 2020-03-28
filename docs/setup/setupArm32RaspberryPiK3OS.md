@@ -61,7 +61,7 @@ To make the changes described above enter the following commands:
    EOF
    cat <<EOF | sudo tee -a /var/lib/rancher/k3s/server/manifests/traefik-mod.yaml
        dashboard.enabled: "true"
-       dashboard.domain: "traefik.bik3s.home"
+       dashboard.domain: "traefik.bik8s.home"
        ssl.insecureSkipVerify: "true"
    EOF
    sudo rm /var/lib/rancher/k3s/server/manifests/traefik.yaml /var/lib/rancher/k3s/server/manifests/local-storage.yaml

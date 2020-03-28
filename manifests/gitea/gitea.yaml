@@ -83,9 +83,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - gitea.bik3s.home
+    - gitea.bik8s.home
   rules:
-  - host: gitea.bik3s.home
+  - host: gitea.bik8s.home
     http:
       paths:
         - path: /

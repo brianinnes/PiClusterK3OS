@@ -19,14 +19,14 @@ You can find the IP addresses for services using command ```kubectl get services
 The ingress uses the host name to route traffic to the correct service, so you need to set up your DNS server or use your system local name resolution capability (/etc/hosts on Linux and MacOS) to map hostname to the external IP address of the traefik service, e.g.
 
 ```text
-192.168.0.201   traefik.bik3s.home
-192.168.0.201   k3s.bik3s.home
+192.168.0.201   traefik.bik8s.home
+192.168.0.201   k3s.bik8s.home
 ```
 
 Then you can access the dashboards using:
 
-- Kubernetes dashboard : ```https://k3s.bik3s.home```
-- Traefik dashboard : ```http://traefik.bik3s.home```
+- Kubernetes dashboard : ```https://k3s.bik8s.home```
+- Traefik dashboard : ```http://traefik.bik8s.home```
 
 # Access the bearer token to login into the dashboard
 
