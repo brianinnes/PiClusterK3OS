@@ -5,8 +5,8 @@ This section will deploy a local git server, using Gitea.  A Postgres database w
 To deploy Postgres and Gitea execute the following:
 
 ```
-kubectl apply -f postgres.yaml
-kubectl apply -f gitea.yaml
+kubectl apply -f manifests/gitea/postgres.yaml
+kubectl apply -f manifests/gitea/gitea.yaml
 ```
 
 You need to create a Postgres password, which needs to be base64 encoded.  You can create this using command ```echo -n "password" | base64```, replacing password with the password you want to use for the database, then store the password as a secret with the following command, again replacing the value of the password property with the output from the previous command:

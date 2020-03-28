@@ -21,7 +21,8 @@ EOF
 
 create file metalLB_configMap.yaml with the content shown below.  You should change the IP address range to match your local network.  Use addresses that will not be handed out by your DHCP server, but are accessible from your local laptop or workstation:
 
-``` yaml
+```bash
+kubectl apply -f -<<EOF
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -33,5 +34,6 @@ data:
     - name: default
       protocol: layer2
       addresses:
-      - 192.168.0.201-192.168.0.240
+      - 192.168.201.201-192.168.201.240
+EOF
 ```

@@ -13,6 +13,7 @@ On your laptop or workstation you need the following software installed:
 - Helm v3
 - Docker ce (Linux) or Docker Desktop (Mac and Windows)
 - ssh client
+- scp client
 
 You need to have ssh keys for generated on your workstation, which you will add to the K3OS nodes, so you can ssh in to them.  If you don't already have keys you can find instructions [here](https://www.ssh.com/ssh/keygen) or if you use putty the instructions can be found [here](https://www.ssh.com/ssh/putty/windows/puttygen)
 
