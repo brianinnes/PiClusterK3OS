@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: gitea
+  name: gitea-app
+  labels:
+    app: gitea
+spec:
+  selector:
+    matchLabels:
+      app: gitea
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: gitea
+    spec:
+      containers:
+      - name: gitea
+        image: gitea/gitea:1.11
+        env:
+        - name: USER_UID
+          value: "1000"
+        - name: USER_GID
+          value: "1000"
+        ports:
+        - containerPort: 3000
+          name: gitea-http
+        - containerPort: 22
+          name: gitea-ssh
+        volumeMounts:
+        - mountPath: /data
+          name: git-data
+          readOnly: false
+      securityContext:
+        fsGroup: 1000
+      volumes:
+        - name: git-data
+          persistentVolumeClaim:
+            claimName: storage-gitea
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: gitea
+  name: storage-gitea
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: gitea
+  name: gitea
+  labels:
+    app: gitea
+spec:
+  selector:
+    app: gitea
+  ports:
+  - name: gitea-http
+    port: 3000
+    targetPort: gitea-http
+  - name: gitea-ssh
+    port: 3022
+    targetPort: gitea-ssh
+    protocol: TCP
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gitea
+  namespace: gitea
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  tls:
+  - hosts:
+    - gitea.bik3s.home
+  rules:
+  - host: gitea.bik3s.home
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: gitea
+            servicePort: 3000

@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: longhorn-dashboard
+  namespace: longhorn-system
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: longhorn.bik3s.home
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: longhorn-frontend
+            servicePort: 80

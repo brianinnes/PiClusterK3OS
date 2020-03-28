@@ -27,7 +27,7 @@ spec:
     metrics.prometheus.enabled: "true"
     kubernetes.ingressEndpoint.useDefaultPublishedService: "true"
     dashboard.enabled: "true"
-    dashboard.domain: "traefik.bik8s.home"
+    dashboard.domain: "traefik.bik3s.home"
     ssl.insecureSkipVerify: "true
 ```
 
@@ -49,6 +49,6 @@ spec:
     metrics.prometheus.enabled: "true"
     kubernetes.ingressEndpoint.useDefaultPublishedService: "true"
     dashboard.enabled: "true"
-    dashboard.domain: "traefik.bik8s.home"
+    dashboard.domain: "traefik.bik3s.home"
     ssl.insecureSkipVerify: "true"
 ```
