@@ -1,4 +1,4 @@
-#K3OS setup on AMD64 architecture
+# K3OS setup on AMD64 architecture
 
 As part of the cluster I need at least 1 amd64 node, this will be a multi-arch build node when the cluster is fully operational, but as part of the initial setup it is needed to run images not available for arm architectures.  
 
