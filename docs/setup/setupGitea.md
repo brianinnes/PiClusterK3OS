@@ -36,7 +36,7 @@ Schema:         <leave blank>
 
 Site Title:     <Set to string of choice>
 SSH Server Domain: gitea.bik8s.home <this is what the ingress hostname is>
-Gitea Base URL: http://gitea.bik8s.home/
+Gitea Base URL: http://gitea.bik8s.home/ <don't include port, as ingress will remap>
 
 
 Note user passwords need:

@@ -23,6 +23,7 @@ K3OS has NFS packages installed, so you can use them.  However, they are not ena
 ```text
 boot_cmd:
 - "mkdir -p /var/lib/nfs"
+- "chown nobody:nogroup /var/lib/nfs"
 - "rc-update add rpc.statd"
 run_cmd:
 - "rc-service rpc.statd start"
