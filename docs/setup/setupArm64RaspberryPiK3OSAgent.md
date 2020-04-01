@@ -31,8 +31,9 @@
 
     Copy your ssh public key from ~/.ssh/id_rsa.pub on your workstation (this is needed to be able to ssh into the machine) and add it as the ssh_authorized_keys entry in the config file.  You may also want to change the hostname and password
 7. Edit file **nobtcmd.txt** to enable cgroups needed for containers: ```sudo vi /boot/firmware/nobtcmd.txt``` and add ```cgroup_memory=1 cgroup_enable=memory``` to the end of the first line.  There should only be a single line of content in this file.  
-  *Note: It is important that you do this step before booting the overlay (next step), otherwise the cmdline.txt file is not used once the overlay takes over*
-8. Overlay K3OS and add the config then reboot into K3OS
+  *Note: It is important that you do this step and reboot before booting the overlay, otherwise the cmdline.txt file is not used once the overlay takes over*
+8. Reboot to make the kernel command line changes active ```sudo reboot```
+9. Overlay K3OS and add the config then reboot into K3OS
 
     ```bash
     curl -sfL https://github.com/rancher/k3os/releases/download/v0.9.1/k3os-rootfs-arm64.tar.gz | sudo tar zxvf - --strip-components=1 -C /
