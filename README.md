@@ -47,4 +47,3 @@ To setup the cluster follow the instructions on each of the following pages:
 - [Load balancer setup](docs/setup/setupMetalLB.md)
 - [Dashboard setup](docs/setup/setupK8sDashboard.md)
 - [cluster storage](docs/setup/setupClusterStorage.md)
-- [Jenkins X setup](docs/setup/setupJenkinsX.md)

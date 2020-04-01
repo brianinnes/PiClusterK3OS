@@ -37,7 +37,7 @@
     curl -sfL https://github.com/rancher/k3os/releases/download/v0.9.1/k3os-rootfs-arm.tar.gz | sudo tar zxvf - --strip-components=1 -C /
     sudo cp config.yaml /k3os/system/config.yaml
     sync
-    sudo reboot -f
+    sudo reboot
     ```
 
 Once the system has rebooted you should be able to ssh into the server with user rancher.  You won't need a password as you added your key.
@@ -78,19 +78,19 @@ ssh_authorized_keys:
 - <WORKSTATION_SSH_PUBLIC_KEY>
 hostname: bi-k3os-rpi2
 k3os:
-data_sources:
-- cdrom
-dns_nameservers:
-- 192.168.201.1
-- 192.168.0.4
-ntp_servers:
-- 0.uk.pool.ntp.org
-- 1.europe.pool.ntp.org
-password: PASSWORD
-server_url: http://SERVER:6443
-token: TOKEN_VALUE
-labels:
-  upgrade.cattle.io/k3os-latest: enabled
+  data_sources:
+  - cdrom
+  dns_nameservers:
+  - 192.168.201.1
+  - 192.168.0.4
+  ntp_servers:
+  - 0.uk.pool.ntp.org
+  - 1.europe.pool.ntp.org
+  password: password
+  server_url: https://SERVER:6443
+  token: TOKEN_VALUE
+  labels:
+    plan.upgrade.cattle.io/k3os-latest: enabled
 ```
 
 Where:
