@@ -28,6 +28,7 @@ The software stack should have the following components:
 - [Ingress](docs/features/upgradeTraefik.md)
 - [Cluster storage](docs/features/storage.md) (for Raspberry pis, this needs to be off the micro-SD card)
 - Knative / Istio
+- Tekton
 
 For the development environment the following components:
 
@@ -48,3 +49,6 @@ To setup the cluster follow the instructions on each of the following pages:
 - [Dashboard setup](docs/setup/setupK8sDashboard.md)
 - [cluster storage](docs/setup/setupClusterStorage.md)
 - [Gitea](docs/setup/setupGitea.md) source control
+- [Cert Manager](docs.docs/setup/setupCertManager.md)
+- [Knative Serving](docs/setup/setupKnative.md)
+- [Tekton Pipelines](docs/setup/setupTektonPipelines.md)

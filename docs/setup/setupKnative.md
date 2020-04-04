@@ -96,4 +96,10 @@ Once everything is running setup the DNS for Knative with the following command:
 kubectl apply --filename https://github.com/knative/serving/releases/download/v0.13.0/serving-default-domain.yaml
 ```
 
+### TO SORT OUT
+
+The last command starts a pod on all nodes - need to kill the job to tidy up the pods which cannot run due to exec format errors
+
+## Note
+
 *Knative Eventing is not going to be installed at this point - it is left for a future exercise*
