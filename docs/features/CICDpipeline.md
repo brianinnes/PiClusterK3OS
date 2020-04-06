@@ -13,4 +13,6 @@ Another investigation needed is to see how Tekton can be used to create multi-ar
 
 ## Jenkins X
 
-Jenkins X is a tool built on Tekton pipelines.  Ideally this should be the tool of choice rather than the lower level Tekton pipelines.  However, Jenkins X currently requires backlevel Helm (v2), which then requires the *Tiller* cluster side deployment and I do not want to downgrade Helm to support Jenkins X, so until the Jankins X project can resolve the backlevel dependency Tekton will be used directly.
+Jenkins X is a tool built on Tekton pipelines.  Ideally this should be the tool of choice rather than the lower level Tekton pipelines.  However, Jenkins X currently requires backlevel Helm (v2), which then requires the *Tiller* cluster side deployment and I do not want to downgrade Helm to support Jenkins X, so until the Jenkins X project can resolve the back level Helm dependency Tekton will be used directly.
+
+It may also be necessary to understand how Jenkins X will support multi-architectures, as if it is built on Tekton, then it is more than likely also locked to the **amd64** architecture for both run time and also task pods.
