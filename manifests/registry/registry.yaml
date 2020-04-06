@@ -1,0 +1,203 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app: registry
+  name: registry
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  namespace: registry
+  name: docker-registry
+spec:
+  secretName: docker-registry-tls-certificate
+  issuerRef:
+    kind: ClusterIssuer
+    name: selfsigned
+  dnsNames:
+  - registry.bik8s.home
+---
+# Source: docker-registry/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: registry
+  name: docker-registry-secret
+  labels:
+    app: docker-registry
+    chart: docker-registry-1.9.2
+    heritage: Helm
+    release: RELEASE-NAME
+type: Opaque
+data:
+  haSharedSecret: "WVNVTTRnalh3NXB1TExBWQ=="
+---
+# Source: docker-registry/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: registry
+  name: docker-registry-config
+  labels:
+    app: docker-registry
+    chart: docker-registry-1.9.2
+    heritage: Helm
+    release: RELEASE-NAME
+data:
+  config.yml: |-
+    health:
+      storagedriver:
+        enabled: true
+        interval: 10s
+        threshold: 3
+    http:
+      addr: :5000
+      headers:
+        X-Content-Type-Options:
+        - nosniff
+    log:
+      fields:
+        service: registry
+    storage:
+      cache:
+        blobdescriptor: inmemory
+    version: 0.1
+---
+# Source: docker-registry/templates/pvc.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  namespace: registry
+  name: docker-registry
+  labels:
+    app: docker-registry
+    chart: "docker-registry-1.9.2"
+    release: "RELEASE-NAME"
+    heritage: "Helm"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "10Gi"
+---
+# Source: docker-registry/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: registry
+  name: docker-registry
+  labels:
+    app: docker-registry
+    chart: docker-registry-1.9.2
+    release: RELEASE-NAME
+    heritage: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5000
+      protocol: TCP
+      name: registry
+      targetPort: 5000
+  selector:
+    app: docker-registry
+    release: RELEASE-NAME
+---
+# Source: docker-registry/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: registry
+  name: docker-registry
+  labels:
+    app: docker-registry
+    chart: docker-registry-1.9.2
+    release: RELEASE-NAME
+    heritage: Helm
+spec:
+  selector:
+    matchLabels:
+      app: docker-registry
+      release: RELEASE-NAME
+  replicas: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: docker-registry
+        release: RELEASE-NAME
+      annotations:
+        checksum/config: 81e80f74c25ddc68e4f388a0d553b9e069eaf953455bad01f4f2ac96bd6d1d81
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+      containers:
+        - name: docker-registry
+          image: "registry:2.7.1"
+          imagePullPolicy: IfNotPresent
+          command:
+          - /bin/registry
+          - serve
+          - /etc/docker/registry/config.yml
+          ports:
+            - containerPort: 5000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+          resources:
+            {}
+          env:
+            - name: REGISTRY_HTTP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: docker-registry-secret
+                  key: haSharedSecret
+            - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+              value: "/var/lib/registry"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/registry/
+            - name: "docker-registry-config"
+              mountPath: "/etc/docker/registry"
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: docker-registry
+        - name: docker-registry-config
+          configMap:
+            name: docker-registry-config
+---
+# Source: docker-registry/templates/ingress.yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: registry
+  name: docker-registry
+  labels:
+    app: docker-registry
+    chart: docker-registry-1.9.2
+    heritage: Helm
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: selfsigned
+spec:
+  tls:
+  - hosts:
+    - registry.bik8s.home
+    secretName: docker-registry-tls-certificate
+  rules:
+    - host: registry.bik8s.home
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: docker-registry
+              servicePort: 5000

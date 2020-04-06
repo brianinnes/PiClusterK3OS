@@ -1,6 +1,6 @@
 # Home Kubernetes cluster
 
-**This is a work in progress, documenting here as I make progress**
+Note : **This is a work in progress, documenting here as I make progress**
 
 This project aims to provide a set of instructions to setup a home Kubernetes cluster based on Rancher K3OS.
 
