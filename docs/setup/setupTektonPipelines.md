@@ -15,9 +15,9 @@ nodeSelector:
   kubernetes.io/arch: amd64
 ```
 
-## Artiface Storage
+## Artefact Storage
 
-Tekton needs storage for artifacts.  This can be a persistent volume or object storage.  For the K3OS cluster we already have persistent volumes setup.  Enter the commands below to use persistent volumes:
+Tekton needs storage for artefacts.  This can be a persistent volume or object storage.  For the K3OS cluster we already have persistent volumes setup.  Enter the commands below to use persistent volumes:
 
 ```bash
 kubectl apply -f -<<EOF
@@ -35,3 +35,44 @@ EOF
 ## Tekton CLI
 
 To work with Tekton you need to have the CLI installed.  To installed the CLI on your system follow the [instructions](https://github.com/tektoncd/cli) for your workstation/laptop OS.
+
+## Tekton Web UI
+
+There is a web UI to help monitor and track what is going on in Tekton.  To install it run the following command:
+
+```kubectl apply --filename kubectl apply -f https://github.com/tektoncd/dashboard/releases/download/v0.6.0/tekton-dashboard-release.yaml```
+
+and again, you need to limit the deployment to **amd64** based nodes, by updating the deployment descriptor and adding a node selector:
+
+```yaml
+nodeSelector:
+  kubernetes.io/arch: amd64
+```
+
+finally add an ingress definition to be able to access the UI:
+
+```bash
+kubectl apply -f -<<EOF
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tekton-dashboard
+  namespace: tekton-pipelines
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  tls:
+  - hosts:
+    - tekton.bik8s.home
+  rules:
+  - host: tekton.bik8s.home
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: tekton-dashboard
+            servicePort: 9097
+EOF
+```
+
+and don't forget to update your DNS server or hosts file to map **tekton.bik8s.home** to the IP address of the external IP address of the traefik service.

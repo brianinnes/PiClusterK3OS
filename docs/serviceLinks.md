@@ -14,4 +14,6 @@ The other option is to add the resolution to the /etc/hosts file on mac or linux
 192.168.201.200   traefik.bik8s.home
 192.168.201.200   k3s.bik8s.home
 192.168.201.200   gitea.bik8s.home
+192.168.201.200   tekton.bik8s.home
+192.168.201.200   registry.bik8s.home (not a web UI)
 ```
