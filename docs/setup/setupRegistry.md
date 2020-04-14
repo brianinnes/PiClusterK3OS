@@ -15,7 +15,7 @@ write_files:
 - encoding: ""
   content: |-
     mirrors:
-      docker.io:
+      registry.bik8s.home:
         endpoint:
           - "http://registry.bik8s.home"
   owner: root:root
