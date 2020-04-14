@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: buildah
+  name: binfmt
+  labels:
+    app: binfmt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: binfmt  
+  template:
+    metadata:
+      labels:
+        app: binfmt
+    spec:
+      containers:
+      - name: binfmt
+        image: docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
+        imagePullPolicy: "Always"
+        securityContext:
+          privileged: true
+      nodeSelector:
+        kubernetes.io/arch: amd64

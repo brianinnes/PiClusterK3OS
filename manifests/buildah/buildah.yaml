@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: buildah
+  name: buildah
+  labels:
+    app: buildah
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: buildah  
+  template:
+    metadata:
+      labels:
+        app: buildah
+    spec:
+      containers:
+      - name: buildahtest
+        image: quay.io/buildah/stable
+        command: ["tail", "-f", "/dev/null"]
+        imagePullPolicy: "Always"
+        volumeMounts:
+        - name: volume
+          mountPath: /var/lib/containers
+        securityContext:
+          privileged: true
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      volumes:
+      - name: volume
+        hostPath:
+          path: /var/lib/containers
