@@ -187,7 +187,7 @@ metadata:
     heritage: Helm
   annotations:
     kubernetes.io/ingress.class: traefik
-    cert-manager.io/cluster-issuer: selfsigned
+    certmanager.k8s.io/cluster-issuer: selfsigned
 spec:
   tls:
   - hosts:

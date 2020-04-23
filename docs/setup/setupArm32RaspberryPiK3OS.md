@@ -34,7 +34,7 @@
 8. Overlay K3OS and add the config then reboot into K3OS
 
     ```bash
-    curl -sfL https://github.com/rancher/k3os/releases/download/v0.9.1/k3os-rootfs-arm.tar.gz | sudo tar zxvf - --strip-components=1 -C /
+    curl -sfL https://github.com/rancher/k3os/releases/download/v0.10.0/k3os-rootfs-arm.tar.gz | sudo tar zxvf - --strip-components=1 -C /
     sudo cp config.yaml /k3os/system/config.yaml
     sync
     sudo reboot

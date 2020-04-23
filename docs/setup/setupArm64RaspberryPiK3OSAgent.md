@@ -1,5 +1,9 @@
 # Set up an ARM64 Raspberry Pi 4 cluster node
 
+Note:
+Ubuntu 19.10.x crashes after a few days.  Unable to login and K3S node goes off line - not debugged yet
+Ubuntu 18.04TLS under test (node - bi-k3os-rpi3)
+
 1. Download the [ubuntu](https://ubuntu.com/download/raspberry-pi) 19.10.1 64-bit image for Raspberry Pi 4
 2. Uncompress the image and flash to a micro SD card
 3. Boot the pi
@@ -29,14 +33,21 @@
    EOF
    ```
 
-    Copy your ssh public key from ~/.ssh/id_rsa.pub on your workstation (this is needed to be able to ssh into the machine) and add it as the ssh_authorized_keys entry in the config file.  You may also want to change the hostname and password
-7. Edit file **nobtcmd.txt** to enable cgroups needed for containers: ```sudo vi /boot/firmware/nobtcmd.txt``` and add ```cgroup_memory=1 cgroup_enable=memory``` to the end of the first line.  There should only be a single line of content in this file.  
+Where:
+- WORKSTATION_SSH_PUBLIC_KEY is your ssh public key, on linux/mac this is stored in ~/.ssh/id_rsa.pub. It should start with something similar to *ssh-rsa AAAAB3NzaC1*
+- PASSWORD is the password you want to assign to the rancher user - this is not going to be used as you use the ssh key when login to the system
+- SERVER is the hostname or IP address of the master node of the cluster
+- TOKEN_VALUE is the token from file **/var/lib/rancher/k3s/server/node-token** on the master node.  SSH into the master node and enter command ```sudo cat /var/lib/rancher/k3s/server/node-token``` to display it
+cat /
+You may also want to change the hostname
+
+1. Edit file **nobtcmd.txt** to enable cgroups needed for containers: ```sudo vi /boot/firmware/nobtcmd.txt``` and add ```cgroup_memory=1 cgroup_enable=memory``` to the end of the first line.  There should only be a single line of content in this file.  
   *Note: It is important that you do this step and reboot before booting the overlay, otherwise the cmdline.txt file is not used once the overlay takes over*
 8. Reboot to make the kernel command line changes active ```sudo reboot```
 9. Overlay K3OS and add the config then reboot into K3OS
 
     ```bash
-    curl -sfL https://github.com/rancher/k3os/releases/download/v0.9.1/k3os-rootfs-arm64.tar.gz | sudo tar zxvf - --strip-components=1 -C /
+    curl -sfL https://github.com/rancher/k3os/releases/download/v0.10.0/k3os-rootfs-arm64.tar.gz | sudo tar zxvf - --strip-components=1 -C /
     sudo cp config.yaml /k3os/system/config.yaml
     sync
     sudo reboot
