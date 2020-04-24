@@ -1,10 +1,6 @@
 # Set up an ARM64 Raspberry Pi 4 cluster node
 
-Note:
-Ubuntu 19.10.x crashes after a few days.  Unable to login and K3S node goes off line - not debugged yet
-Ubuntu 18.04TLS under test (node - bi-k3os-rpi3)
-
-1. Download the [ubuntu](https://ubuntu.com/download/raspberry-pi) 19.10.1 64-bit image for Raspberry Pi 4
+1. Download the [ubuntu](https://ubuntu.com/download/raspberry-pi) 18.04.x TLS 64-bit image for Raspberry Pi 4
 2. Uncompress the image and flash to a micro SD card
 3. Boot the pi
 4. ssh into the system user **ubuntu** and password **ubuntu**, you will be prompted to change the password, so enter a new password.  You will be disconnected, so ssh in again using the new password
